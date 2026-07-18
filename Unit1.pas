@@ -70,7 +70,7 @@ begin
         color_vida := Clyellow
     else
         color_vida := Clgreen;
-
+    // a
     // evitamos que la vida se salga del rango
     if vida < 0 then
         vida := 0

@@ -25,8 +25,6 @@ type
 
   TForm1 = class(TForm)
     StringGrid1: TStringGrid;
-    Edit1: TEdit;
-    Button1: TButton;
     Edit2: TEdit;
     Button2: TButton;
     Button3: TButton;
@@ -38,7 +36,6 @@ type
     procedure FormCreate(Sender: TObject);
     procedure StringGrid1DrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
-    procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure Button3Click(Sender: TObject);
     procedure Button4Click(Sender: TObject);
@@ -124,9 +121,9 @@ begin
     button4.caption := monstruo2.nombre;
     button5.caption := monstruo3.nombre;
 
-    button6.caption := equipo1[1].ataques[1].nombre;
-    button7.caption := equipo1[1].ataques[2].nombre;
-    button8.caption := equipo1[1].ataques[3].nombre;
+    button6.caption := equipo1[1].ataques[1].nombre + ' ' + inttostr(equipo1[1].ataques[1].cantidad);
+    button7.caption := equipo1[1].ataques[2].nombre + ' ' + inttostr(equipo1[1].ataques[2].cantidad);
+    button8.caption := equipo1[1].ataques[3].nombre + ' ' + inttostr(equipo1[1].ataques[3].cantidad);
 
     posMonstruo := 1;
     vida := equipo1[posMonstruo].vida;
@@ -159,18 +156,6 @@ begin
     StringGrid1.Canvas.FillRect(Rect);  
 end;
 
-//Boton para hacer danio
-procedure TForm1.Button1Click(Sender: TObject);
-begin
-    dano := strtoint(Edit1.Text);
-    vida := vida - dano;
-    if vida < 0 then //Definimos el limite minimo
-      vida := 0;
-    
-    equipo1[posMonstruo].vida := vida;
-    StringGrid1.Invalidate;
-end;
-
 //Boton para curar 
 procedure TForm1.Button2Click(Sender: TObject);
 begin
@@ -183,12 +168,16 @@ begin
     StringGrid1.Invalidate;
 end;
 
-//BOTONES PARA CAMBAIR DE MONSTRUO
+//BOTONES PARA CAMBIAR DE MONSTRUO
 procedure TForm1.Button3Click(Sender: TObject);
 begin
   posMonstruo := 1;
   vida := equipo1[posMonstruo].vida;
   StringGrid1.Invalidate;
+
+  button6.caption := equipo1[posMonstruo].ataques[1].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[1].cantidad);
+  button7.caption := equipo1[posMonstruo].ataques[2].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[2].cantidad);
+  button8.caption := equipo1[posMonstruo].ataques[3].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[3].cantidad);
 end;
 
 procedure TForm1.Button4Click(Sender: TObject);
@@ -196,6 +185,10 @@ begin
   posMonstruo := 2;
   vida := equipo1[posMonstruo].vida;
   StringGrid1.Invalidate;
+
+  button6.caption := equipo1[posMonstruo].ataques[1].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[1].cantidad);
+  button7.caption := equipo1[posMonstruo].ataques[2].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[2].cantidad);
+  button8.caption := equipo1[posMonstruo].ataques[3].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[3].cantidad);
 end;
 
 procedure TForm1.Button5Click(Sender: TObject);
@@ -203,6 +196,10 @@ begin
   posMonstruo := 3;
   vida := equipo1[posMonstruo].vida;
   StringGrid1.Invalidate;
+
+  button6.caption := equipo1[posMonstruo].ataques[1].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[1].cantidad);
+  button7.caption := equipo1[posMonstruo].ataques[2].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[2].cantidad);
+  button8.caption := equipo1[posMonstruo].ataques[3].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[3].cantidad);
 end;
 
 //Botones para elegir el danio deseado
@@ -211,12 +208,12 @@ begin
   //Chequeamos que el ataque elegido siga teniendo usos
   if equipo1[posMonstruo].ataques[1].cantidad > 0 then
   begin
+    equipo1[posMonstruo].ataques[1].cantidad := equipo1[posMonstruo].ataques[1].cantidad - 1;
+    button6.caption := equipo1[posMonstruo].ataques[1].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[1].cantidad);
     dano := equipo1[posMonstruo].ataques[1].dano;
     vida := vida - dano;
     if vida < 0 then //Definimos el limite minimo
       vida := 0;
-    equipo1[posMonstruo].ataques[1].cantidad := equipo1[posMonstruo].ataques[1].cantidad - 1;
-    button6.caption := equipo1[posMonstruo].ataques[1].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[1].cantidad);
   end;
     
   equipo1[posMonstruo].vida := vida;
@@ -228,13 +225,14 @@ begin
   //Chequeamos que el ataque elegido siga teniendo usos
   if equipo1[posMonstruo].ataques[2].cantidad > 0 then
   begin
+    equipo1[posMonstruo].ataques[2].cantidad := equipo1[posMonstruo].ataques[2].cantidad - 1;
+    button7.caption := equipo1[posMonstruo].ataques[2].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[2].cantidad);
     dano := equipo1[posMonstruo].ataques[2].dano;
     vida := vida - dano;
     if vida < 0 then //Definimos el limite minimo
       vida := 0;
-    equipo1[posMonstruo].ataques[2].cantidad := equipo1[posMonstruo].ataques[2].cantidad - 1;
-    button7.caption := equipo1[posMonstruo].ataques[2].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[2].cantidad);
   end;
+
   equipo1[posMonstruo].vida := vida;
   StringGrid1.Invalidate;
 end;
@@ -244,13 +242,14 @@ begin
   //Chequeamos que el ataque elegido siga teniendo usos
   if equipo1[posMonstruo].ataques[3].cantidad > 0 then
   begin
+    equipo1[posMonstruo].ataques[3].cantidad := equipo1[posMonstruo].ataques[3].cantidad - 1;
+    button8.caption := equipo1[posMonstruo].ataques[3].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[3].cantidad);
     dano := equipo1[posMonstruo].ataques[3].dano;
     vida := vida - dano;
     if vida < 0 then //Definimos el limite minimo
       vida := 0;
-    equipo1[posMonstruo].ataques[3].cantidad := equipo1[posMonstruo].ataques[3].cantidad - 1;
-    button8.caption := equipo1[posMonstruo].ataques[3].nombre + ' ' + inttostr(equipo1[posMonstruo].ataques[3].cantidad);
   end;
+
   equipo1[posMonstruo].vida := vida;
   StringGrid1.Invalidate;
 end;

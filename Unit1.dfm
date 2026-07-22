@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 94
   Top = 96
-  Width = 883
+  Width = 1027
   Height = 406
   Caption = 'Form1'
   Color = clBtnFace
@@ -23,36 +23,20 @@ object Form1: TForm1
     TabOrder = 0
     OnDrawCell = StringGrid1DrawCell
   end
-  object Edit1: TEdit
-    Left = 280
-    Top = 176
+  object Edit2: TEdit
+    Left = 312
+    Top = 288
     Width = 121
     Height = 21
     TabOrder = 1
   end
-  object Button1: TButton
-    Left = 408
-    Top = 176
-    Width = 75
-    Height = 25
-    Caption = 'Hacer dano'
-    TabOrder = 2
-    OnClick = Button1Click
-  end
-  object Edit2: TEdit
-    Left = 496
-    Top = 176
-    Width = 121
-    Height = 21
-    TabOrder = 3
-  end
   object Button2: TButton
-    Left = 624
-    Top = 176
+    Left = 448
+    Top = 288
     Width = 75
     Height = 25
     Caption = 'Curar'
-    TabOrder = 4
+    TabOrder = 2
     OnClick = Button2Click
   end
   object Button3: TButton
@@ -61,7 +45,7 @@ object Form1: TForm1
     Width = 75
     Height = 25
     Caption = 'Monstruo 1'
-    TabOrder = 5
+    TabOrder = 3
     OnClick = Button3Click
   end
   object Button4: TButton
@@ -70,7 +54,7 @@ object Form1: TForm1
     Width = 75
     Height = 25
     Caption = 'Monstruo 2'
-    TabOrder = 6
+    TabOrder = 4
     OnClick = Button4Click
   end
   object Button5: TButton
@@ -79,34 +63,34 @@ object Form1: TForm1
     Width = 75
     Height = 25
     Caption = 'Monstruo 3'
-    TabOrder = 7
+    TabOrder = 5
     OnClick = Button5Click
   end
   object Button6: TButton
-    Left = 256
-    Top = 216
+    Left = 344
+    Top = 168
     Width = 97
     Height = 33
     Caption = 'Ataque 1'
-    TabOrder = 8
+    TabOrder = 6
     OnClick = Button6Click
   end
   object Button7: TButton
-    Left = 368
-    Top = 216
+    Left = 456
+    Top = 168
     Width = 97
     Height = 33
     Caption = 'Ataque 2'
-    TabOrder = 9
+    TabOrder = 7
     OnClick = Button7Click
   end
   object Button8: TButton
-    Left = 480
-    Top = 216
+    Left = 568
+    Top = 168
     Width = 97
     Height = 33
     Caption = 'Ataque 3'
-    TabOrder = 10
+    TabOrder = 8
     OnClick = Button8Click
   end
 end

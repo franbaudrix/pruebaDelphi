@@ -1,8 +1,8 @@
 object Form1: TForm1
-  Left = 124
-  Top = 116
-  Width = 1088
-  Height = 563
+  Left = 94
+  Top = 96
+  Width = 883
+  Height = 406
   Caption = 'Form1'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,6 +11,7 @@ object Form1: TForm1
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnClick = FormCreate
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
@@ -18,20 +19,20 @@ object Form1: TForm1
     Left = 40
     Top = 112
     Width = 977
-    Height = 120
+    Height = 33
     TabOrder = 0
     OnDrawCell = StringGrid1DrawCell
   end
   object Edit1: TEdit
-    Left = 136
-    Top = 272
+    Left = 280
+    Top = 176
     Width = 121
     Height = 21
     TabOrder = 1
   end
   object Button1: TButton
-    Left = 264
-    Top = 272
+    Left = 408
+    Top = 176
     Width = 75
     Height = 25
     Caption = 'Hacer dano'
@@ -39,15 +40,15 @@ object Form1: TForm1
     OnClick = Button1Click
   end
   object Edit2: TEdit
-    Left = 352
-    Top = 272
+    Left = 496
+    Top = 176
     Width = 121
     Height = 21
     TabOrder = 3
   end
   object Button2: TButton
-    Left = 480
-    Top = 272
+    Left = 624
+    Top = 176
     Width = 75
     Height = 25
     Caption = 'Curar'
@@ -55,8 +56,8 @@ object Form1: TForm1
     OnClick = Button2Click
   end
   object Button3: TButton
-    Left = 64
-    Top = 416
+    Left = 376
+    Top = 40
     Width = 75
     Height = 25
     Caption = 'Monstruo 1'
@@ -64,8 +65,8 @@ object Form1: TForm1
     OnClick = Button3Click
   end
   object Button4: TButton
-    Left = 152
-    Top = 416
+    Left = 464
+    Top = 40
     Width = 75
     Height = 25
     Caption = 'Monstruo 2'
@@ -73,12 +74,39 @@ object Form1: TForm1
     OnClick = Button4Click
   end
   object Button5: TButton
-    Left = 248
-    Top = 416
+    Left = 560
+    Top = 40
     Width = 75
     Height = 25
     Caption = 'Monstruo 3'
     TabOrder = 7
     OnClick = Button5Click
+  end
+  object Button6: TButton
+    Left = 256
+    Top = 216
+    Width = 97
+    Height = 33
+    Caption = 'Ataque 1'
+    TabOrder = 8
+    OnClick = Button6Click
+  end
+  object Button7: TButton
+    Left = 368
+    Top = 216
+    Width = 97
+    Height = 33
+    Caption = 'Ataque 2'
+    TabOrder = 9
+    OnClick = Button7Click
+  end
+  object Button8: TButton
+    Left = 480
+    Top = 216
+    Width = 97
+    Height = 33
+    Caption = 'Ataque 3'
+    TabOrder = 10
+    OnClick = Button8Click
   end
 end

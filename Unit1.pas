@@ -292,9 +292,9 @@ begin
   vidaJ2 := equipo2[posMonstruoJ2].vida;
   StringGrid2.Invalidate;
 
-  button6.caption := equipo1[posMonstruoJ2].ataques[1].nombre + ' ' + inttostr(equipo1[posMonstruoJ2].ataques[1].cantidad);
-  button7.caption := equipo1[posMonstruoJ2].ataques[2].nombre + ' ' + inttostr(equipo1[posMonstruoJ2].ataques[2].cantidad);
-  button8.caption := equipo1[posMonstruoJ2].ataques[3].nombre + ' ' + inttostr(equipo1[posMonstruoJ2].ataques[3].cantidad);
+  button11.caption := equipo1[posMonstruoJ2].ataques[1].nombre + ' ' + inttostr(equipo1[posMonstruoJ2].ataques[1].cantidad);
+  button12.caption := equipo1[posMonstruoJ2].ataques[2].nombre + ' ' + inttostr(equipo1[posMonstruoJ2].ataques[2].cantidad);
+  button13.caption := equipo1[posMonstruoJ2].ataques[3].nombre + ' ' + inttostr(equipo1[posMonstruoJ2].ataques[3].cantidad);
 end;
 
 procedure TForm1.Button9Click(Sender: TObject);
@@ -303,9 +303,9 @@ begin
   vidaJ2 := equipo2[posMonstruoJ2].vida;
   StringGrid2.Invalidate;
 
-  button6.caption := equipo2[posMonstruoJ2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[1].cantidad);
-  button7.caption := equipo2[posMonstruoJ2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[2].cantidad);
-  button8.caption := equipo2[posMonstruoJ2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[3].cantidad);
+  button11.caption := equipo2[posMonstruoJ2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[1].cantidad);
+  button12.caption := equipo2[posMonstruoJ2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[2].cantidad);
+  button13.caption := equipo2[posMonstruoJ2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[3].cantidad);
 end;
 
 procedure TForm1.Button10Click(Sender: TObject);
@@ -314,9 +314,9 @@ begin
   vidaJ2 := equipo2[posMonstruoJ2].vida;
   StringGrid2.Invalidate;
 
-  button6.caption := equipo2[posMonstruoJ2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[1].cantidad);
-  button7.caption := equipo2[posMonstruoJ2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[2].cantidad);
-  button8.caption := equipo2[posMonstruoJ2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[3].cantidad);
+  button11.caption := equipo2[posMonstruoJ2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[1].cantidad);
+  button12.caption := equipo2[posMonstruoJ2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[2].cantidad);
+  button13.caption := equipo2[posMonstruoJ2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[3].cantidad);
 end;
 
 //Botones para elegir el danio deseado JUGADOR 2

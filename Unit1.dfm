@@ -1,9 +1,9 @@
 object Form1: TForm1
-  Left = 317
-  Top = 310
-  Width = 1148
-  Height = 461
-  Caption = 'Form1'
+  Left = 215
+  Top = 142
+  Width = 1088
+  Height = 563
+  Caption = '0'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,15 +11,47 @@ object Form1: TForm1
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Button14: TButton
-    Left = 536
-    Top = 152
+  object StringGrid1: TStringGrid
+    Left = 232
+    Top = 112
+    Width = 521
+    Height = 120
+    TabOrder = 0
+    OnDrawCell = StringGrid1DrawCell
+  end
+  object Edit1: TEdit
+    Left = 136
+    Top = 272
+    Width = 121
+    Height = 21
+    TabOrder = 1
+  end
+  object Button1: TButton
+    Left = 264
+    Top = 272
     Width = 75
     Height = 25
-    Caption = 'Ventana'
-    TabOrder = 0
-    OnClick = Button14Click
+    Caption = 'Hacer dano'
+    TabOrder = 2
+    OnClick = Button1Click
+  end
+  object Edit2: TEdit
+    Left = 352
+    Top = 272
+    Width = 121
+    Height = 21
+    TabOrder = 3
+  end
+  object Button2: TButton
+    Left = 480
+    Top = 272
+    Width = 75
+    Height = 25
+    Caption = 'Curar'
+    TabOrder = 4
+    OnClick = Button2Click
   end
 end

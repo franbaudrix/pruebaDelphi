@@ -1,6 +1,6 @@
 object Form3: TForm3
-  Left = 78
-  Top = 201
+  Left = 351
+  Top = 242
   Width = 1088
   Height = 563
   Caption = 'Form3'
@@ -14,11 +14,24 @@ object Form3: TForm3
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Memo1: TMemo
-    Left = 200
-    Top = 144
-    Width = 185
-    Height = 89
+  object Label1: TLabel
+    Left = 456
+    Top = 56
+    Width = 49
+    Height = 13
+    Caption = 'Monstruos'
+  end
+  object StringGrid1: TStringGrid
+    Left = 448
+    Top = 88
+    Width = 320
+    Height = 120
     TabOrder = 0
+    RowHeights = (
+      24
+      24
+      24
+      24
+      24)
   end
 end

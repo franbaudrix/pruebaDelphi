@@ -31,6 +31,7 @@ procedure TForm1.Button2Click(Sender: TObject);
 begin
 
     Form3.Hide;
+
     Form2.Show;
     Form2.BringToFront;
 
@@ -40,6 +41,7 @@ procedure TForm1.Button1Click(Sender: TObject);
 begin
 
     Form2.Hide;
+    
     Form3.Show;
     Form3.BringToFront;
 

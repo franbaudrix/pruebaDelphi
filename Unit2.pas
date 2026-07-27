@@ -20,6 +20,7 @@ type
         nombre: string;
         vida: integer;
         ataques: TarrayDanos;
+        desbloqueado: boolean;
     end;
 
   //por ahora vamos a suponer que el usuario puede tener muchos personajes
@@ -62,6 +63,7 @@ type
     procedure Button12Click(Sender: TObject);
     procedure Button13Click(Sender: TObject);
     procedure Button14Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
 
   public
@@ -77,15 +79,19 @@ var
   monstruo1: monstruo;
   monstruo2: monstruo;
   monstruo3: monstruo;
+  monstruo4: monstruo;
+  monstruo5: monstruo;
+  monstruo6: monstruo;
 
-  arrayDanos: TarrayDanos;
+  arrayDanos, arrayDanos2: TarrayDanos;
 
-  equipo1: equipo;
+  equipoJugador: equipo;
   equipo2: equipo;
+  listaMonstruos: equipo;
 
-  posMonstruoJ1, posMonstruoJ2: integer;
-  vidaJ1, vidaJ2: integer;
-  danoJ1, danoJ2: integer;
+  posMonstruoJugador, posMonstruoE2: integer;
+  vidaJugador, vidaE2: integer;
+  danoJugador, danoE2: integer;
 
 implementation
 
@@ -95,6 +101,9 @@ procedure TForm2.FormCreate(Sender: TObject);
 
 const
     N = 100;
+
+var
+   i:integer;
 
 begin
     StringGrid1.FixedCols := 0;
@@ -124,53 +133,72 @@ begin
     arrayDanos[2] := ataque2;
     arrayDanos[3] := ataque3;
 
+    arrayDanos2[1] := ataque3;
+    arrayDanos2[2] := ataque3;
+    arrayDanos2[3] := ataque3;
+
     //Seteo de los monstruos genericos
     monstruo1.nombre := 'Kaki';
     monstruo1.vida := 50;
     monstruo1.ataques := arrayDanos;
+    monstruo1.desbloqueado := True;
     monstruo2.nombre := 'Enzo';
     monstruo2.vida := 70;
     monstruo2.ataques := arrayDanos;
+    monstruo2.desbloqueado := True;
     monstruo3.nombre := 'Jorel';
     monstruo3.vida := 100;
     monstruo3.ataques := arrayDanos;
+    monstruo3.desbloqueado := False;
+    monstruo4.nombre := 'Joaco';
+    monstruo4.vida := 20;
+    monstruo4.ataques := arrayDanos2;
+    monstruo4.desbloqueado := True;
+    monstruo5.nombre := 'Ivan';
+    monstruo5.vida := 30;
+    monstruo5.ataques := arrayDanos2;
+    monstruo5.desbloqueado := True;
+    monstruo6.nombre := 'Budin';
+    monstruo6.vida := 10;
+    monstruo6.ataques := arrayDanos2;
+    monstruo6.desbloqueado := True;
 
-    //Seteo de los equipos participantes
-    equipo1[1] := monstruo1;
-    equipo1[2] := monstruo2;
-    equipo1[3] := monstruo3;
+    //Seteo de los equipos rivales
+    equipoJugador[1] := monstruo1;
+    equipoJugador[2] := monstruo2;
+    equipoJugador[3] := monstruo3;
 
     equipo2[1] := monstruo1;
     equipo2[2] := monstruo2;
     equipo2[3] := monstruo3;
 
-    //Configuracion titulos de botones (nombre de los monstruos)
-    button3.caption := monstruo1.nombre;
-    button4.caption := monstruo2.nombre;
-    button5.caption := monstruo3.nombre;
+    //Enlistado de todos los monstruos disponibles y no disponibles
+    listaMonstruos[1] := monstruo1;
+    listaMonstruos[2] := monstruo2;
+    listaMonstruos[3] := monstruo3;
+    listaMonstruos[4] := monstruo4;
+    listaMonstruos[5] := monstruo5;
+    listaMonstruos[6] := monstruo6;
 
+    //Configuracion titulos de botones (nombre de los monstruos) del oponente
     button1.caption := monstruo1.nombre;
     button9.caption := monstruo2.nombre;
     button10.caption := monstruo3.nombre;
 
-    //Nombres de los ataques y su cantidad restante
-    button6.caption := equipo1[1].ataques[1].nombre + ' ' + inttostr(equipo1[1].ataques[1].cantidad);
-    button7.caption := equipo1[1].ataques[2].nombre + ' ' + inttostr(equipo1[1].ataques[2].cantidad);
-    button8.caption := equipo1[1].ataques[3].nombre + ' ' + inttostr(equipo1[1].ataques[3].cantidad);
-
+    //Nombres de los ataques y su cantidad restante del oponente
     button11.caption := equipo2[1].ataques[1].nombre + ' ' + inttostr(equipo2[1].ataques[1].cantidad);
     button12.caption := equipo2[1].ataques[2].nombre + ' ' + inttostr(equipo2[1].ataques[2].cantidad);
     button13.caption := equipo2[1].ataques[3].nombre + ' ' + inttostr(equipo2[1].ataques[3].cantidad);
 
-    posMonstruoJ1 := 1;
-    vidaJ1 := equipo1[posMonstruoJ1].vida;
+    posMonstruoJugador := 1;
+    vidaJugador := equipoJugador[posMonstruoJugador].vida;
 
-    posMonstruoJ2 := 1;
-    vidaJ2 := equipo2[posMonstruoJ2].vida;
+    posMonstruoE2 := 1;
+    vidaE2 := equipo2[posMonstruoE2].vida;
 
 end;
 
-//Barra de vida del jugador 1
+//Barra de vida del jugador
 procedure TForm2.StringGrid1DrawCell(Sender: TObject; ACol, ARow: Integer;
   Rect: TRect; State: TGridDrawState);
 
@@ -178,14 +206,14 @@ var
     color_vida: TColor;
 
 begin
-    if vidaJ1 <= 5 then
+    if vidaJugador <= 5 then
         color_vida := Clred
-    else if vidaJ1 <= 25 then
+    else if vidaJugador <= 25 then
         color_vida := Clyellow
     else
         color_vida := Clgreen;
 
-    if (Acol < vidaJ1) then
+    if (Acol < vidaJugador) then
     begin
       StringGrid1.Canvas.Brush.Color := color_vida;
     end
@@ -197,7 +225,7 @@ begin
     StringGrid1.Canvas.FillRect(Rect);  
 end;
 
-//Barra de vida del jugador 2
+//Barra de vida del rival
 procedure TForm2.StringGrid2DrawCell(Sender: TObject; ACol, ARow: Integer;
   Rect: TRect; State: TGridDrawState);
 
@@ -205,14 +233,14 @@ var
     color_vida: TColor;
 
 begin
-    if vidaJ2 <= 5 then
+    if vidaE2 <= 5 then
         color_vida := Clred
-    else if vidaJ2 <= 25 then
+    else if vidaE2 <= 25 then
         color_vida := Clyellow
     else
         color_vida := Clgreen;
 
-    if (Acol < vidaJ2) then
+    if (Acol < vidaE2) then
     begin
       StringGrid2.Canvas.Brush.Color := color_vida;
     end
@@ -232,179 +260,179 @@ end;
 //    if vida > StringGrid1.ColCount then //Definimos el limite maximo
 //      vida:= StringGrid1.ColCount;
 //
-//    equipo1[posMonstruo].vida := vida;
+//    equipoJugador[posMonstruo].vida := vida;
 //    StringGrid1.Invalidate;
 //end;
 
-//BOTONES PARA CAMBIAR DE MONSTRUO JUGADOR 1
+//BOTONES PARA CAMBIAR DE MONSTRUO JUGADOR
 procedure TForm2.Button3Click(Sender: TObject);
 begin
-  posMonstruoJ1 := 1;
-  vidaJ1 := equipo1[posMonstruoJ1].vida;
+  posMonstruoJugador := 1;
+  vidaJugador := equipoJugador[posMonstruoJugador].vida;
   StringGrid1.Invalidate;
 
-  button6.caption := equipo1[posMonstruoJ1].ataques[1].nombre + ' ' + inttostr(equipo1[posMonstruoJ1].ataques[1].cantidad);
-  button7.caption := equipo1[posMonstruoJ1].ataques[2].nombre + ' ' + inttostr(equipo1[posMonstruoJ1].ataques[2].cantidad);
-  button8.caption := equipo1[posMonstruoJ1].ataques[3].nombre + ' ' + inttostr(equipo1[posMonstruoJ1].ataques[3].cantidad);
+  button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
+  button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
+  button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
 end;
 
 procedure TForm2.Button4Click(Sender: TObject);
 begin
-  posMonstruoJ1 := 2;
-  vidaJ1 := equipo1[posMonstruoJ1].vida;
+  posMonstruoJugador := 2;
+  vidaJugador := equipoJugador[posMonstruoJugador].vida;
   StringGrid1.Invalidate;
 
-  button6.caption := equipo1[posMonstruoJ1].ataques[1].nombre + ' ' + inttostr(equipo1[posMonstruoJ1].ataques[1].cantidad);
-  button7.caption := equipo1[posMonstruoJ1].ataques[2].nombre + ' ' + inttostr(equipo1[posMonstruoJ1].ataques[2].cantidad);
-  button8.caption := equipo1[posMonstruoJ1].ataques[3].nombre + ' ' + inttostr(equipo1[posMonstruoJ1].ataques[3].cantidad);
+  button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
+  button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
+  button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
 end;
 
 procedure TForm2.Button5Click(Sender: TObject);
 begin
-  posMonstruoJ1 := 3;
-  vidaJ1 := equipo1[posMonstruoJ1].vida;
+  posMonstruoJugador := 3;
+  vidaJugador := equipoJugador[posMonstruoJugador].vida;
   StringGrid1.Invalidate;
 
-  button6.caption := equipo1[posMonstruoJ1].ataques[1].nombre + ' ' + inttostr(equipo1[posMonstruoJ1].ataques[1].cantidad);
-  button7.caption := equipo1[posMonstruoJ1].ataques[2].nombre + ' ' + inttostr(equipo1[posMonstruoJ1].ataques[2].cantidad);
-  button8.caption := equipo1[posMonstruoJ1].ataques[3].nombre + ' ' + inttostr(equipo1[posMonstruoJ1].ataques[3].cantidad);
+  button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
+  button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
+  button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
 end;
 
-//Botones para elegir el danio deseado JUGADOR 1
+//Botones para elegir el danio deseado JUGADOR
 procedure TForm2.Button6Click(Sender: TObject);
 begin
   //Chequeamos que el ataque elegido siga teniendo usos
-  if equipo1[posMonstruoJ1].ataques[1].cantidad > 0 then
+  if equipoJugador[posMonstruoJugador].ataques[1].cantidad > 0 then
   begin
-    equipo1[posMonstruoJ1].ataques[1].cantidad := equipo1[posMonstruoJ1].ataques[1].cantidad - 1;
-    button6.caption := equipo1[posMonstruoJ1].ataques[1].nombre + ' ' + inttostr(equipo1[posMonstruoJ1].ataques[1].cantidad);
-    danoJ1 := equipo1[posMonstruoJ1].ataques[1].dano;
-    vidaJ2 := vidaJ2 - danoJ1;
-    if vidaJ2 < 0 then //Definimos el limite minimo
-      vidaJ2 := 0;
+    equipoJugador[posMonstruoJugador].ataques[1].cantidad := equipoJugador[posMonstruoJugador].ataques[1].cantidad - 1;
+    button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
+    danoJugador := equipoJugador[posMonstruoJugador].ataques[1].dano;
+    vidaE2 := vidaE2 - danoJugador;
+    if vidaE2 < 0 then //Definimos el limite minimo
+      vidaE2 := 0;
   end;
     
-  equipo2[posMonstruoJ2].vida := vidaJ2;
+  equipo2[posMonstruoE2].vida := vidaE2;
   StringGrid2.Invalidate;
 end;
 
 procedure TForm2.Button7Click(Sender: TObject);
 begin
   //Chequeamos que el ataque elegido siga teniendo usos
-  if equipo1[posMonstruoJ1].ataques[2].cantidad > 0 then
+  if equipoJugador[posMonstruoJugador].ataques[2].cantidad > 0 then
   begin
-    equipo1[posMonstruoJ1].ataques[2].cantidad := equipo1[posMonstruoJ1].ataques[2].cantidad - 1;
-    button7.caption := equipo1[posMonstruoJ1].ataques[2].nombre + ' ' + inttostr(equipo1[posMonstruoJ1].ataques[2].cantidad);
-    danoJ1 := equipo1[posMonstruoJ1].ataques[2].dano;
-    vidaJ2 := vidaJ2 - danoJ1;
-    if vidaJ2 < 0 then //Definimos el limite minimo
-      vidaJ2 := 0;
+    equipoJugador[posMonstruoJugador].ataques[2].cantidad := equipoJugador[posMonstruoJugador].ataques[2].cantidad - 1;
+    button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
+    danoJugador := equipoJugador[posMonstruoJugador].ataques[2].dano;
+    vidaE2 := vidaE2 - danoJugador;
+    if vidaE2 < 0 then //Definimos el limite minimo
+      vidaE2 := 0;
   end;
     
-  equipo2[posMonstruoJ2].vida := vidaJ2;
+  equipo2[posMonstruoE2].vida := vidaE2;
   StringGrid2.Invalidate;
 end;
 
 procedure TForm2.Button8Click(Sender: TObject);
 begin
   //Chequeamos que el ataque elegido siga teniendo usos
-  if equipo1[posMonstruoJ1].ataques[3].cantidad > 0 then
+  if equipoJugador[posMonstruoJugador].ataques[3].cantidad > 0 then
   begin
-    equipo1[posMonstruoJ1].ataques[3].cantidad := equipo1[posMonstruoJ1].ataques[3].cantidad - 1;
-    button8.caption := equipo1[posMonstruoJ1].ataques[3].nombre + ' ' + inttostr(equipo1[posMonstruoJ1].ataques[3].cantidad);
-    danoJ1 := equipo1[posMonstruoJ1].ataques[3].dano;
-    vidaJ2 := vidaJ2 - danoJ1;
-    if vidaJ2 < 0 then //Definimos el limite minimo
-      vidaJ2 := 0;
+    equipoJugador[posMonstruoJugador].ataques[3].cantidad := equipoJugador[posMonstruoJugador].ataques[3].cantidad - 1;
+    button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
+    danoJugador := equipoJugador[posMonstruoJugador].ataques[3].dano;
+    vidaE2 := vidaE2 - danoJugador;
+    if vidaE2 < 0 then //Definimos el limite minimo
+      vidaE2 := 0;
   end;
     
-  equipo2[posMonstruoJ2].vida := vidaJ2;
+  equipo2[posMonstruoE2].vida := vidaE2;
   StringGrid2.Invalidate;
 end;
 
-//BOTONES PARA CAMBIAR DE MONSTRUO JUGADOR 2
+//BOTONES PARA CAMBIAR DE MONSTRUO RIVAL
 procedure TForm2.Button1Click(Sender: TObject);
 begin
-  posMonstruoJ2 := 1;
-  vidaJ2 := equipo2[posMonstruoJ2].vida;
+  posMonstruoE2 := 1;
+  vidaE2 := equipo2[posMonstruoE2].vida;
   StringGrid2.Invalidate;
 
-  button11.caption := equipo1[posMonstruoJ2].ataques[1].nombre + ' ' + inttostr(equipo1[posMonstruoJ2].ataques[1].cantidad);
-  button12.caption := equipo1[posMonstruoJ2].ataques[2].nombre + ' ' + inttostr(equipo1[posMonstruoJ2].ataques[2].cantidad);
-  button13.caption := equipo1[posMonstruoJ2].ataques[3].nombre + ' ' + inttostr(equipo1[posMonstruoJ2].ataques[3].cantidad);
+  button11.caption := equipoJugador[posMonstruoE2].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoE2].ataques[1].cantidad);
+  button12.caption := equipoJugador[posMonstruoE2].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoE2].ataques[2].cantidad);
+  button13.caption := equipoJugador[posMonstruoE2].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoE2].ataques[3].cantidad);
 end;
 
 procedure TForm2.Button9Click(Sender: TObject);
 begin
-  posMonstruoJ2 := 2;
-  vidaJ2 := equipo2[posMonstruoJ2].vida;
+  posMonstruoE2 := 2;
+  vidaE2 := equipo2[posMonstruoE2].vida;
   StringGrid2.Invalidate;
 
-  button11.caption := equipo2[posMonstruoJ2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[1].cantidad);
-  button12.caption := equipo2[posMonstruoJ2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[2].cantidad);
-  button13.caption := equipo2[posMonstruoJ2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[3].cantidad);
+  button11.caption := equipo2[posMonstruoE2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[1].cantidad);
+  button12.caption := equipo2[posMonstruoE2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[2].cantidad);
+  button13.caption := equipo2[posMonstruoE2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[3].cantidad);
 end;
 
 procedure TForm2.Button10Click(Sender: TObject);
 begin
-  posMonstruoJ2 := 3;
-  vidaJ2 := equipo2[posMonstruoJ2].vida;
+  posMonstruoE2 := 3;
+  vidaE2 := equipo2[posMonstruoE2].vida;
   StringGrid2.Invalidate;
 
-  button11.caption := equipo2[posMonstruoJ2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[1].cantidad);
-  button12.caption := equipo2[posMonstruoJ2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[2].cantidad);
-  button13.caption := equipo2[posMonstruoJ2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[3].cantidad);
+  button11.caption := equipo2[posMonstruoE2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[1].cantidad);
+  button12.caption := equipo2[posMonstruoE2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[2].cantidad);
+  button13.caption := equipo2[posMonstruoE2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[3].cantidad);
 end;
 
-//Botones para elegir el danio deseado JUGADOR 2
+//Botones para elegir el danio deseado RIVAL
 procedure TForm2.Button11Click(Sender: TObject);
 begin
   //Chequeamos que el ataque elegido siga teniendo usos
-  if equipo2[posMonstruoJ2].ataques[1].cantidad > 0 then
+  if equipo2[posMonstruoE2].ataques[1].cantidad > 0 then
   begin
-    equipo2[posMonstruoJ2].ataques[1].cantidad := equipo2[posMonstruoJ2].ataques[1].cantidad - 1;
-    button11.caption := equipo2[posMonstruoJ2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[1].cantidad);
-    danoJ2 := equipo2[posMonstruoJ2].ataques[1].dano;
-    vidaJ1 := vidaJ1 - danoJ2;
-    if vidaJ1 < 0 then //Definimos el limite minimo
-      vidaJ1 := 0;
+    equipo2[posMonstruoE2].ataques[1].cantidad := equipo2[posMonstruoE2].ataques[1].cantidad - 1;
+    button11.caption := equipo2[posMonstruoE2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[1].cantidad);
+    danoE2 := equipo2[posMonstruoE2].ataques[1].dano;
+    vidaJugador := vidaJugador - danoE2;
+    if vidaJugador < 0 then //Definimos el limite minimo
+      vidaJugador := 0;
   end;
     
-  equipo1[posMonstruoJ1].vida := vidaJ1;
+  equipoJugador[posMonstruoJugador].vida := vidaJugador;
   StringGrid1.Invalidate;
 end;
 
 procedure TForm2.Button12Click(Sender: TObject);
 begin
   //Chequeamos que el ataque elegido siga teniendo usos
-  if equipo2[posMonstruoJ2].ataques[2].cantidad > 0 then
+  if equipo2[posMonstruoE2].ataques[2].cantidad > 0 then
   begin
-    equipo2[posMonstruoJ2].ataques[2].cantidad := equipo2[posMonstruoJ2].ataques[2].cantidad - 1;
-    button12.caption := equipo2[posMonstruoJ2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[2].cantidad);
-    danoJ2 := equipo2[posMonstruoJ2].ataques[2].dano;
-    vidaJ1 := vidaJ1 - danoJ2;
-    if vidaJ1 < 0 then //Definimos el limite minimo
-      vidaJ1 := 0;
+    equipo2[posMonstruoE2].ataques[2].cantidad := equipo2[posMonstruoE2].ataques[2].cantidad - 1;
+    button12.caption := equipo2[posMonstruoE2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[2].cantidad);
+    danoE2 := equipo2[posMonstruoE2].ataques[2].dano;
+    vidaJugador := vidaJugador - danoE2;
+    if vidaJugador < 0 then //Definimos el limite minimo
+      vidaJugador := 0;
   end;
     
-  equipo1[posMonstruoJ1].vida := vidaJ1;
+  equipoJugador[posMonstruoJugador].vida := vidaJugador;
   StringGrid1.Invalidate;
 end;
 
 procedure TForm2.Button13Click(Sender: TObject);
 begin
   //Chequeamos que el ataque elegido siga teniendo usos
-  if equipo2[posMonstruoJ2].ataques[3].cantidad > 0 then
+  if equipo2[posMonstruoE2].ataques[3].cantidad > 0 then
   begin
-    equipo2[posMonstruoJ2].ataques[3].cantidad := equipo2[posMonstruoJ2].ataques[3].cantidad - 1;
-    button13.caption := equipo2[posMonstruoJ2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoJ2].ataques[3].cantidad);
-    danoJ2 := equipo2[posMonstruoJ2].ataques[3].dano;
-    vidaJ1 := vidaJ1 - danoJ2;
-    if vidaJ1 < 0 then //Definimos el limite minimo
-      vidaJ1 := 0;
+    equipo2[posMonstruoE2].ataques[3].cantidad := equipo2[posMonstruoE2].ataques[3].cantidad - 1;
+    button13.caption := equipo2[posMonstruoE2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[3].cantidad);
+    danoE2 := equipo2[posMonstruoE2].ataques[3].dano;
+    vidaJugador := vidaJugador - danoE2;
+    if vidaJugador < 0 then //Definimos el limite minimo
+      vidaJugador := 0;
   end;
     
-  equipo1[posMonstruoJ1].vida := vidaJ1;
+  equipoJugador[posMonstruoJugador].vida := vidaJugador;
   StringGrid1.Invalidate;
 end;
 
@@ -415,6 +443,20 @@ begin
     Form2.Show;
     Form2.BringToFront;
 
+end;
+
+procedure TForm2.FormShow(Sender: TObject);
+begin
+  button3.caption := equipoJugador[1].nombre;
+  button4.caption := equipoJugador[2].nombre;
+  button5.caption := equipoJugador[3].nombre;
+
+  button6.caption := equipoJugador[1].ataques[1].nombre + ' ' + inttostr(equipoJugador[1].ataques[1].cantidad);
+  button7.caption := equipoJugador[1].ataques[2].nombre + ' ' + inttostr(equipoJugador[1].ataques[2].cantidad);
+  button8.caption := equipoJugador[1].ataques[3].nombre + ' ' + inttostr(equipoJugador[1].ataques[3].cantidad);
+
+  posMonstruoJugador := 1;
+  vidaJugador := equipoJugador[posMonstruoJugador].vida;
 end;
 
 end.

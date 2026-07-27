@@ -1,6 +1,6 @@
 object Form2: TForm2
-  Left = 284
-  Top = 267
+  Left = 118
+  Top = 80
   Width = 1088
   Height = 563
   Caption = 'Form2'
@@ -12,6 +12,7 @@ object Form2: TForm2
   Font.Style = []
   OldCreateOrder = False
   OnCreate = FormCreate
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object StringGrid1: TStringGrid

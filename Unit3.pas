@@ -35,12 +35,12 @@ begin
     StringGrid1.FixedRows := 0;
     StringGrid1.ColCount := 1;
     StringGrid1.ScrollBars := ssNone;
-    StringGrid1.RowCount := Length(Unit2.equipo1);
+    StringGrid1.RowCount := Length(Unit2.equipoJugador);
     StringGrid1.Width := StringGrid1.ColWidths[0];
     StringGrid1.Height := StringGrid1.RowHeights[0] * StringGrid1.RowCount;
 
-    for i := 1 to 3 do
-        StringGrid1.Cells[0, i - 1] := Unit2.equipo1[i].nombre;
+    for i := 1 to 6 do
+        StringGrid1.Cells[0, i - 1] := Unit2.listaMonstruos[i].nombre;
 
 
 

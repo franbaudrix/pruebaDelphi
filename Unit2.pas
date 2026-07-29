@@ -131,11 +131,11 @@ begin
 
     //Seteo de los monstruos genericos
     monstruo1.nombre := 'Kaki';
-    monstruo1.vida := 50;
+    monstruo1.vida := 100;
     monstruo1.ataques := arrayDanos;
     monstruo1.desbloqueado := True;
     monstruo2.nombre := 'Enzo';
-    monstruo2.vida := 70;
+    monstruo2.vida := 100;
     monstruo2.ataques := arrayDanos;
     monstruo2.desbloqueado := True;
     monstruo3.nombre := 'Jorel';
@@ -143,11 +143,11 @@ begin
     monstruo3.ataques := arrayDanos;
     monstruo3.desbloqueado := False;
     monstruo4.nombre := 'Joaco';
-    monstruo4.vida := 20;
+    monstruo4.vida := 10;
     monstruo4.ataques := arrayDanos2;
     monstruo4.desbloqueado := True;
     monstruo5.nombre := 'Ivan';
-    monstruo5.vida := 30;
+    monstruo5.vida := 10;
     monstruo5.ataques := arrayDanos2;
     monstruo5.desbloqueado := True;
     monstruo6.nombre := 'Budin';
@@ -250,41 +250,50 @@ end;
 //BOTONES PARA CAMBIAR DE MONSTRUO JUGADOR
 procedure TForm2.Button3Click(Sender: TObject);
 begin
-  posMonstruoJugador := 1;
-  vidaJugador := equipoJugador[posMonstruoJugador].vida;
-  StringGrid1.Invalidate;
+  if (turno) and (equipoJugador[1].vida > 0) then
+    posMonstruoJugador := 1;
+    vidaJugador := equipoJugador[posMonstruoJugador].vida;
+    StringGrid1.Invalidate;
 
-  button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
-  button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
-  button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
+    button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
+    button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
+    button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
+    turno:= False;
+    LogicaIA; //Ejecutamos el procedimiento para que la IA ataque
 end;
 
 procedure TForm2.Button4Click(Sender: TObject);
 begin
-  posMonstruoJugador := 2;
-  vidaJugador := equipoJugador[posMonstruoJugador].vida;
-  StringGrid1.Invalidate;
+  if (turno) and (equipoJugador[2].vida > 0) then
+    posMonstruoJugador := 2;
+    vidaJugador := equipoJugador[posMonstruoJugador].vida;
+    StringGrid1.Invalidate;
 
-  button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
-  button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
-  button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
+    button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
+    button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
+    button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
+    turno:= False;
+    LogicaIA; //Ejecutamos el procedimiento para que la IA ataque
 end;
 
 procedure TForm2.Button5Click(Sender: TObject);
 begin
-  posMonstruoJugador := 3;
-  vidaJugador := equipoJugador[posMonstruoJugador].vida;
-  StringGrid1.Invalidate;
+  if (turno) and (equipoJugador[3].vida > 0) then
+    posMonstruoJugador := 3;
+    vidaJugador := equipoJugador[posMonstruoJugador].vida;
+    StringGrid1.Invalidate;
 
-  button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
-  button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
-  button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
+    button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
+    button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
+    button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
+    turno:= False;
+    LogicaIA; //Ejecutamos el procedimiento para que la IA ataque
 end;
 
 //Botones para elegir el danio deseado JUGADOR
 procedure TForm2.Button6Click(Sender: TObject);
 begin
-  if turno then
+  if (turno) and (equipoJugador[posMonstruoJugador].vida > 0) then
   begin
     //Chequeamos que el ataque elegido siga teniendo usos
     if equipoJugador[posMonstruoJugador].ataques[1].cantidad > 0 then
@@ -306,7 +315,7 @@ end;
 
 procedure TForm2.Button7Click(Sender: TObject);
 begin
-  if turno then
+  if (turno) and (equipoJugador[posMonstruoJugador].vida > 0) then
   begin
     //Chequeamos que el ataque elegido siga teniendo usos
     if equipoJugador[posMonstruoJugador].ataques[2].cantidad > 0 then
@@ -328,7 +337,7 @@ end;
 
 procedure TForm2.Button8Click(Sender: TObject);
 begin
-  if turno then
+  if (turno) and (equipoJugador[posMonstruoJugador].vida > 0) then
   begin
     //Chequeamos que el ataque elegido siga teniendo usos
     if equipoJugador[posMonstruoJugador].ataques[3].cantidad > 0 then
@@ -378,7 +387,7 @@ procedure TForm2.LogicaIA;
 var
   danoRandom:integer;//Variable para generar una posicion random del array danios
 begin
-  if (turno = False) then //False es el turno de la IA
+  if turno = False then //False es el turno de la IA
   begin
     //If que chequea que al menos un monstruo tenga vida, sino gano el jugador usuario
     if (equipo2[1].vida > 0) or (equipo2[2].vida > 0) or (equipo2[3].vida > 0) then
@@ -407,7 +416,9 @@ begin
     else
       //Si todos los monstruos han sido derrotados, ganara el jugador usuario
       Label1.caption := 'Gano jugador 1';
-  end; 
+  end;
+  if (equipoJugador[1].vida <= 0) and (equipoJugador[2].vida <= 0) and (equipoJugador[3].vida <= 0) then
+    Label1.caption := 'Gano jugador 2';
 end;   
 
 end.

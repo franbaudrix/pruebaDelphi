@@ -38,13 +38,8 @@ type
     Button7: TButton;
     Button8: TButton;
     StringGrid2: TStringGrid;
-    Button1: TButton;
-    Button9: TButton;
-    Button10: TButton;
-    Button11: TButton;
-    Button12: TButton;
-    Button13: TButton;
     Button14: TButton;
+    Label1: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure StringGrid1DrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
@@ -56,14 +51,9 @@ type
     procedure Button6Click(Sender: TObject);
     procedure Button7Click(Sender: TObject);
     procedure Button8Click(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
-    procedure Button9Click(Sender: TObject);
-    procedure Button10Click(Sender: TObject);
-    procedure Button11Click(Sender: TObject);
-    procedure Button12Click(Sender: TObject);
-    procedure Button13Click(Sender: TObject);
     procedure Button14Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure LogicaIA;
   private
 
   public
@@ -92,6 +82,8 @@ var
   posMonstruoJugador, posMonstruoE2: integer;
   vidaJugador, vidaE2: integer;
   danoJugador, danoE2: integer;
+
+  turno: boolean;
 
 implementation
 
@@ -164,10 +156,6 @@ begin
     monstruo6.desbloqueado := True;
 
     //Seteo de los equipos rivales
-    equipoJugador[1] := monstruo1;
-    equipoJugador[2] := monstruo2;
-    equipoJugador[3] := monstruo3;
-
     equipo2[1] := monstruo1;
     equipo2[2] := monstruo2;
     equipo2[3] := monstruo3;
@@ -180,20 +168,15 @@ begin
     listaMonstruos[5] := monstruo5;
     listaMonstruos[6] := monstruo6;
 
-    //Configuracion titulos de botones (nombre de los monstruos) del oponente
-    button1.caption := monstruo1.nombre;
-    button9.caption := monstruo2.nombre;
-    button10.caption := monstruo3.nombre;
+    Randomize;
+    posMonstruoE2 := Random(3) + 1;
 
-    //Nombres de los ataques y su cantidad restante del oponente
-    button11.caption := equipo2[1].ataques[1].nombre + ' ' + inttostr(equipo2[1].ataques[1].cantidad);
-    button12.caption := equipo2[1].ataques[2].nombre + ' ' + inttostr(equipo2[1].ataques[2].cantidad);
-    button13.caption := equipo2[1].ataques[3].nombre + ' ' + inttostr(equipo2[1].ataques[3].cantidad);
+    //Configuracion LABEL con nombre monstruo del RIVAL
+    label1.caption := equipo2[posMonstruoE2].nombre;
 
     posMonstruoJugador := 1;
     vidaJugador := equipoJugador[posMonstruoJugador].vida;
 
-    posMonstruoE2 := 1;
     vidaE2 := equipo2[posMonstruoE2].vida;
 
 end;
@@ -301,139 +284,68 @@ end;
 //Botones para elegir el danio deseado JUGADOR
 procedure TForm2.Button6Click(Sender: TObject);
 begin
-  //Chequeamos que el ataque elegido siga teniendo usos
-  if equipoJugador[posMonstruoJugador].ataques[1].cantidad > 0 then
+  if turno then
   begin
-    equipoJugador[posMonstruoJugador].ataques[1].cantidad := equipoJugador[posMonstruoJugador].ataques[1].cantidad - 1;
-    button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
-    danoJugador := equipoJugador[posMonstruoJugador].ataques[1].dano;
-    vidaE2 := vidaE2 - danoJugador;
-    if vidaE2 < 0 then //Definimos el limite minimo
-      vidaE2 := 0;
-  end;
+    //Chequeamos que el ataque elegido siga teniendo usos
+    if equipoJugador[posMonstruoJugador].ataques[1].cantidad > 0 then
+    begin
+      equipoJugador[posMonstruoJugador].ataques[1].cantidad := equipoJugador[posMonstruoJugador].ataques[1].cantidad - 1;
+      button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
+      danoJugador := equipoJugador[posMonstruoJugador].ataques[1].dano;
+      vidaE2 := vidaE2 - danoJugador;
+      if vidaE2 < 0 then //Definimos el limite minimo
+        vidaE2 := 0;
+    end;
     
-  equipo2[posMonstruoE2].vida := vidaE2;
-  StringGrid2.Invalidate;
+    equipo2[posMonstruoE2].vida := vidaE2;
+    StringGrid2.Invalidate;
+    turno:= False; //Cambiamos la variable turno para que ataque al rival
+    LogicaIA; //Ejecutamos el procedimiento para que la IA ataque
+  end;
 end;
 
 procedure TForm2.Button7Click(Sender: TObject);
 begin
-  //Chequeamos que el ataque elegido siga teniendo usos
-  if equipoJugador[posMonstruoJugador].ataques[2].cantidad > 0 then
+  if turno then
   begin
-    equipoJugador[posMonstruoJugador].ataques[2].cantidad := equipoJugador[posMonstruoJugador].ataques[2].cantidad - 1;
-    button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
-    danoJugador := equipoJugador[posMonstruoJugador].ataques[2].dano;
-    vidaE2 := vidaE2 - danoJugador;
-    if vidaE2 < 0 then //Definimos el limite minimo
-      vidaE2 := 0;
-  end;
+    //Chequeamos que el ataque elegido siga teniendo usos
+    if equipoJugador[posMonstruoJugador].ataques[2].cantidad > 0 then
+    begin
+      equipoJugador[posMonstruoJugador].ataques[2].cantidad := equipoJugador[posMonstruoJugador].ataques[2].cantidad - 1;
+      button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
+      danoJugador := equipoJugador[posMonstruoJugador].ataques[2].dano;
+      vidaE2 := vidaE2 - danoJugador;
+      if vidaE2 < 0 then //Definimos el limite minimo
+        vidaE2 := 0;
+    end;
     
-  equipo2[posMonstruoE2].vida := vidaE2;
-  StringGrid2.Invalidate;
+    equipo2[posMonstruoE2].vida := vidaE2;
+    StringGrid2.Invalidate;
+    turno:= False;//Cambiamos la variable turno para que ataque al rival
+    LogicaIA; //Ejecutamos el procedimiento para que la IA ataque
+  end;
 end;
 
 procedure TForm2.Button8Click(Sender: TObject);
 begin
-  //Chequeamos que el ataque elegido siga teniendo usos
-  if equipoJugador[posMonstruoJugador].ataques[3].cantidad > 0 then
+  if turno then
   begin
-    equipoJugador[posMonstruoJugador].ataques[3].cantidad := equipoJugador[posMonstruoJugador].ataques[3].cantidad - 1;
-    button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
-    danoJugador := equipoJugador[posMonstruoJugador].ataques[3].dano;
-    vidaE2 := vidaE2 - danoJugador;
-    if vidaE2 < 0 then //Definimos el limite minimo
-      vidaE2 := 0;
-  end;
+    //Chequeamos que el ataque elegido siga teniendo usos
+    if equipoJugador[posMonstruoJugador].ataques[3].cantidad > 0 then
+    begin
+      equipoJugador[posMonstruoJugador].ataques[3].cantidad := equipoJugador[posMonstruoJugador].ataques[3].cantidad - 1;
+      button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
+      danoJugador := equipoJugador[posMonstruoJugador].ataques[3].dano;
+      vidaE2 := vidaE2 - danoJugador;
+      if vidaE2 < 0 then //Definimos el limite minimo
+        vidaE2 := 0;
+    end;
     
-  equipo2[posMonstruoE2].vida := vidaE2;
-  StringGrid2.Invalidate;
-end;
-
-//BOTONES PARA CAMBIAR DE MONSTRUO RIVAL
-procedure TForm2.Button1Click(Sender: TObject);
-begin
-  posMonstruoE2 := 1;
-  vidaE2 := equipo2[posMonstruoE2].vida;
-  StringGrid2.Invalidate;
-
-  button11.caption := equipoJugador[posMonstruoE2].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoE2].ataques[1].cantidad);
-  button12.caption := equipoJugador[posMonstruoE2].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoE2].ataques[2].cantidad);
-  button13.caption := equipoJugador[posMonstruoE2].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoE2].ataques[3].cantidad);
-end;
-
-procedure TForm2.Button9Click(Sender: TObject);
-begin
-  posMonstruoE2 := 2;
-  vidaE2 := equipo2[posMonstruoE2].vida;
-  StringGrid2.Invalidate;
-
-  button11.caption := equipo2[posMonstruoE2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[1].cantidad);
-  button12.caption := equipo2[posMonstruoE2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[2].cantidad);
-  button13.caption := equipo2[posMonstruoE2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[3].cantidad);
-end;
-
-procedure TForm2.Button10Click(Sender: TObject);
-begin
-  posMonstruoE2 := 3;
-  vidaE2 := equipo2[posMonstruoE2].vida;
-  StringGrid2.Invalidate;
-
-  button11.caption := equipo2[posMonstruoE2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[1].cantidad);
-  button12.caption := equipo2[posMonstruoE2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[2].cantidad);
-  button13.caption := equipo2[posMonstruoE2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[3].cantidad);
-end;
-
-//Botones para elegir el danio deseado RIVAL
-procedure TForm2.Button11Click(Sender: TObject);
-begin
-  //Chequeamos que el ataque elegido siga teniendo usos
-  if equipo2[posMonstruoE2].ataques[1].cantidad > 0 then
-  begin
-    equipo2[posMonstruoE2].ataques[1].cantidad := equipo2[posMonstruoE2].ataques[1].cantidad - 1;
-    button11.caption := equipo2[posMonstruoE2].ataques[1].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[1].cantidad);
-    danoE2 := equipo2[posMonstruoE2].ataques[1].dano;
-    vidaJugador := vidaJugador - danoE2;
-    if vidaJugador < 0 then //Definimos el limite minimo
-      vidaJugador := 0;
+    equipo2[posMonstruoE2].vida := vidaE2;
+    StringGrid2.Invalidate;
+    turno:= False;//Cambiamos la variable turno para que ataque al rival
+    LogicaIA; //Ejecutamos el procedimiento para que la IA ataque
   end;
-    
-  equipoJugador[posMonstruoJugador].vida := vidaJugador;
-  StringGrid1.Invalidate;
-end;
-
-procedure TForm2.Button12Click(Sender: TObject);
-begin
-  //Chequeamos que el ataque elegido siga teniendo usos
-  if equipo2[posMonstruoE2].ataques[2].cantidad > 0 then
-  begin
-    equipo2[posMonstruoE2].ataques[2].cantidad := equipo2[posMonstruoE2].ataques[2].cantidad - 1;
-    button12.caption := equipo2[posMonstruoE2].ataques[2].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[2].cantidad);
-    danoE2 := equipo2[posMonstruoE2].ataques[2].dano;
-    vidaJugador := vidaJugador - danoE2;
-    if vidaJugador < 0 then //Definimos el limite minimo
-      vidaJugador := 0;
-  end;
-    
-  equipoJugador[posMonstruoJugador].vida := vidaJugador;
-  StringGrid1.Invalidate;
-end;
-
-procedure TForm2.Button13Click(Sender: TObject);
-begin
-  //Chequeamos que el ataque elegido siga teniendo usos
-  if equipo2[posMonstruoE2].ataques[3].cantidad > 0 then
-  begin
-    equipo2[posMonstruoE2].ataques[3].cantidad := equipo2[posMonstruoE2].ataques[3].cantidad - 1;
-    button13.caption := equipo2[posMonstruoE2].ataques[3].nombre + ' ' + inttostr(equipo2[posMonstruoE2].ataques[3].cantidad);
-    danoE2 := equipo2[posMonstruoE2].ataques[3].dano;
-    vidaJugador := vidaJugador - danoE2;
-    if vidaJugador < 0 then //Definimos el limite minimo
-      vidaJugador := 0;
-  end;
-    
-  equipoJugador[posMonstruoJugador].vida := vidaJugador;
-  StringGrid1.Invalidate;
 end;
 
 procedure TForm2.Button14Click(Sender: TObject);
@@ -445,8 +357,10 @@ begin
 
 end;
 
+//Codigo que se ejecuta cuando se abre la pestania de batalla
 procedure TForm2.FormShow(Sender: TObject);
 begin
+  turno := True;
   button3.caption := equipoJugador[1].nombre;
   button4.caption := equipoJugador[2].nombre;
   button5.caption := equipoJugador[3].nombre;
@@ -458,6 +372,43 @@ begin
   posMonstruoJugador := 1;
   vidaJugador := equipoJugador[posMonstruoJugador].vida;
 end;
+
+//Procedure para la logica de la IA
+procedure TForm2.LogicaIA;
+var
+  danoRandom:integer;//Variable para generar una posicion random del array danios
+begin
+  if (turno = False) then //False es el turno de la IA
+  begin
+    //If que chequea que al menos un monstruo tenga vida, sino gano el jugador usuario
+    if (equipo2[1].vida > 0) or (equipo2[2].vida > 0) or (equipo2[3].vida > 0) then
+      if equipo2[posMonstruoE2].vida > 0 then
+      begin
+        danoRandom := Random(3)+1;
+        vidaJugador := vidaJugador - equipo2[posMonstruoE2].ataques[danoRandom].dano;
+        equipoJugador[posMonstruoJugador].vida := vidaJugador;
+        StringGrid1.Invalidate;
+        turno := True;
+      end
+      else
+      begin
+        Randomize;
+        //Bucle repeat para buscar la posicion random de un monstruo con vida
+        repeat
+          posMonstruoE2 := Random(3) + 1;
+        until equipo2[posMonstruoE2].vida > 0;
+
+        //No atacara porque utiliza su turno para cambiar de monstruo
+        vidaE2:= equipo2[posMonstruoE2].vida;
+        label1.caption := equipo2[posMonstruoE2].nombre;
+
+        turno:=True;
+      end
+    else
+      //Si todos los monstruos han sido derrotados, ganara el jugador usuario
+      Label1.caption := 'Gano jugador 1';
+  end; 
+end;   
 
 end.
  

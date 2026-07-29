@@ -1,6 +1,6 @@
 object Form2: TForm2
-  Left = 118
-  Top = 80
+  Left = 123
+  Top = 92
   Width = 1088
   Height = 563
   Caption = 'Form2'
@@ -15,6 +15,19 @@ object Form2: TForm2
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object Label1: TLabel
+    Left = 488
+    Top = 288
+    Width = 82
+    Height = 32
+    Caption = 'Label1'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -27
+    Font.Name = 'MS Sans Serif'
+    Font.Style = []
+    ParentFont = False
+  end
   object StringGrid1: TStringGrid
     Left = 48
     Top = 168
@@ -106,66 +119,12 @@ object Form2: TForm2
     TabOrder = 9
     OnDrawCell = StringGrid2DrawCell
   end
-  object Button1: TButton
-    Left = 56
-    Top = 296
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 10
-    OnClick = Button1Click
-  end
-  object Button9: TButton
-    Left = 152
-    Top = 296
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 11
-    OnClick = Button9Click
-  end
-  object Button10: TButton
-    Left = 248
-    Top = 296
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 12
-    OnClick = Button10Click
-  end
-  object Button11: TButton
-    Left = 368
-    Top = 296
-    Width = 97
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 13
-    OnClick = Button11Click
-  end
-  object Button12: TButton
-    Left = 480
-    Top = 296
-    Width = 97
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 14
-    OnClick = Button12Click
-  end
-  object Button13: TButton
-    Left = 592
-    Top = 296
-    Width = 97
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 15
-    OnClick = Button13Click
-  end
   object Button14: TButton
     Left = 1005
     Top = 56
     Width = 75
     Height = 25
     Caption = 'Ventana'
-    TabOrder = 16
+    TabOrder = 10
   end
 end

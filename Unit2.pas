@@ -92,6 +92,9 @@ var
 
   turno: boolean;
 
+// la declaramos aca para poder usarla en otros units
+function RUTAimg: string;
+
 implementation
 
 {$R *.dfm}

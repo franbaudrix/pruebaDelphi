@@ -21,6 +21,7 @@ type
         vida: integer;
         ataques: TarrayDanos;
         desbloqueado: boolean;
+        imagenes: string;
     end;
 
   //por ahora vamos a suponer que el usuario puede tener muchos personajes
@@ -95,6 +96,12 @@ implementation
 
 {$R *.dfm}
 
+// nos devuelve la ruta de la carpeta donde estan las img de los personajes
+function RUTAimg: string;
+    begin
+        Result := (ExtractFilePath(Application.ExeName) + 'imgPersonajes\');
+    end;
+
 procedure TForm2.FormCreate(Sender: TObject);
 
 const
@@ -141,30 +148,41 @@ begin
     arrayDanos2[3] := ataque3;
 
     //Seteo de los monstruos genericos
-    monstruo1.nombre := 'Kaki';
+    monstruo1.nombre := 'Capi';
     monstruo1.vida := 100;
     monstruo1.ataques := arrayDanos;
     monstruo1.desbloqueado := True;
-    monstruo2.nombre := 'Enzo';
+    monstruo1.imagenes := RUTAimg + 'capi\';
+
+    monstruo2.nombre := 'Gachin';
     monstruo2.vida := 100;
     monstruo2.ataques := arrayDanos;
     monstruo2.desbloqueado := True;
-    monstruo3.nombre := 'Jorel';
+    monstruo2.imagenes := RUTAimg + 'gachin\';
+
+    monstruo3.nombre := 'Helarila';
     monstruo3.vida := 100;
     monstruo3.ataques := arrayDanos;
-    monstruo3.desbloqueado := False;
-    monstruo4.nombre := 'Joaco';
+    monstruo3.desbloqueado := True;
+    monstruo3.imagenes := RUTAimg + 'helarila\';
+
+    monstruo4.nombre := 'Tomatina';
     monstruo4.vida := 100;
     monstruo4.ataques := arrayDanos2;
     monstruo4.desbloqueado := True;
-    monstruo5.nombre := 'Ivan';
+    monstruo4.imagenes := RUTAimg + 'tomatina\';
+
+    monstruo5.nombre := 'Ungaunge';
     monstruo5.vida := 100;
     monstruo5.ataques := arrayDanos2;
     monstruo5.desbloqueado := True;
-    monstruo6.nombre := 'Budin';
+    monstruo5.imagenes := RUTAimg + 'ungaunge\';
+
+    monstruo6.nombre := 'Guitella';
     monstruo6.vida := 100;
     monstruo6.ataques := arrayDanos2;
     monstruo6.desbloqueado := True;
+    monstruo6.imagenes := RUTAimg + 'guitella\';
 
     //Seteo de los equipos rivales
     equipo2[1] := monstruo1;
@@ -186,6 +204,7 @@ begin
     label1.caption := equipo2[posMonstruoE2].nombre;
 
     posMonstruoJugador := 1;
+    //asignamos la vida del jugador 
     vidaJugador := equipoJugador[posMonstruoJugador].vida;
 
     vidaE2 := equipo2[posMonstruoE2].vida;
@@ -271,10 +290,23 @@ procedure ResetearCantidadDeAtaques();
 //BOTONES PARA CAMBIAR DE MONSTRUO JUGADOR
 
 procedure CambiarMonstruo(PosMonstruo: integer);
+
+    var
+        nuevoMonstruo: monstruo;
+
     begin
+        //extraemos los datos del monstruo
         posMonstruoJugador := PosMonstruo;
-        vidaJugador := equipoJugador[posMonstruoJugador].vida;
+        nuevoMonstruo := equipoJugador[posMonstruoJugador];
+
+        //asignamos su valor de vida
+        vidaJugador := nuevoMonstruo.vida;
+
+        //hacemos que se recarhge el stringgrid
         Form2.StringGrid1.Invalidate;
+
+        //le asignamos la imagen correspondiente
+        Form2.Image1.picture.LoadFromFile(nuevoMonstruo.imagenes + 'idle.jpg');
 
         // mostramos la cantidad actualizada de ataques que tiene el usuario
         ResetearCantidadDeAtaques();
@@ -367,6 +399,9 @@ procedure TForm2.FormShow(Sender: TObject);
 
         posMonstruoJugador := 1;
         vidaJugador := equipoJugador[posMonstruoJugador].vida;
+
+        //cargamos la imagen del primer integrante del equipo
+        Image1.Picture.LoadFromFile(equipoJugador[posMonstruoJugador].imagenes + 'idle.jpg');
     end;
 
 
@@ -384,22 +419,24 @@ procedure AnimacionDanoUsuario();
         Form2.Timer2.Interval := 500; // 400 ms entre frames (se ejecuta la funcion timer en intervalos de 400)
         Form2.Timer2.Enabled := True; // activamos el ciclo de activacion de la funcion timer
         // ponemos la primer imagen de la animacion de dano asi el personaje cambia apenas le hacen dano
-        Form2.Image1.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'imgPersonajes\capiDano.jpg');
+        Form2.Image1.Picture.LoadFromFile(equipoJugador[posMonstruoJugador].imagenes + 'dano.jpg');
     end;
 
 procedure TForm2.Timer2Timer(Sender: TObject);
 
     var
         Ruta: string;
+        personajeActual: monstruo;
 
     begin
         // definimos la ruta de la carpeta donde estan las fotos
-        Ruta := ExtractFilePath(Application.ExeName) + 'imgPersonajes\';
+        personajeActual := equipoJugador[posMonstruoJugador];
+        Ruta := personajeActual.imagenes;
 
         // para cada intervalo se pone una foto distinta
         case frameActualDanoUsuario of
-            0: Image1.Picture.LoadFromFile(Ruta + 'capiDano.jpg');
-            1: Image1.Picture.LoadFromFile(Ruta + 'capiEnojado.jpg');
+            0: Image1.Picture.LoadFromFile(Ruta + 'dano.jpg');
+            1: Image1.Picture.LoadFromFile(Ruta + 'enojado.jpg');
         end;
 
         // por cada intervalo vamos sumando valor al frameActual (para representar el iteracion de los frames)
@@ -409,7 +446,7 @@ procedure TForm2.Timer2Timer(Sender: TObject);
         if frameActualDanoUsuario > 2 then
             begin
                 Timer2.Enabled := False; // detenemos el ciclo de intervalos o como se diga
-                Image1.Picture.LoadFromFile(Ruta + 'capiIdle.jpg'); // volvemos al estado normal del personaje
+                Image1.Picture.LoadFromFile(Ruta + 'idle.jpg'); // volvemos al estado normal del personaje
             end;
     end;
 

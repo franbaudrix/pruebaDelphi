@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Grids, StdCtrls, ExtCtrls, jpeg;
+  Dialogs, Grids, StdCtrls, ExtCtrls, jpeg, pngimage;
 
 type
 
@@ -45,6 +45,7 @@ type
     Label2: TLabel;
     Timer1: TTimer;
     Timer2: TTimer;
+    Image3: TImage;
     procedure FormCreate(Sender: TObject);
     procedure StringGrid1DrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
@@ -213,6 +214,9 @@ begin
     vidaE2 := equipo2[posMonstruoE2].vida;
 
     //insertar la vida del enemigo
+
+    //insertar imagen de fondo
+    Image3.Picture.LoadFromFile(RUTAimg + 'fondo1.png');
 
 
 end;
@@ -404,7 +408,7 @@ procedure TForm2.FormShow(Sender: TObject);
         vidaJugador := equipoJugador[posMonstruoJugador].vida;
 
         //cargamos la imagen del primer integrante del equipo
-        Image1.Picture.LoadFromFile(equipoJugador[posMonstruoJugador].imagenes + 'idle.jpg');
+        Image1.Picture.LoadFromFile(equipoJugador[posMonstruoJugador].imagenes + 'idle.png');
     end;
 
 
@@ -422,7 +426,7 @@ procedure AnimacionDanoUsuario();
         Form2.Timer2.Interval := 500; // 400 ms entre frames (se ejecuta la funcion timer en intervalos de 400)
         Form2.Timer2.Enabled := True; // activamos el ciclo de activacion de la funcion timer
         // ponemos la primer imagen de la animacion de dano asi el personaje cambia apenas le hacen dano
-        Form2.Image1.Picture.LoadFromFile(equipoJugador[posMonstruoJugador].imagenes + 'dano.jpg');
+        Form2.Image1.Picture.LoadFromFile(equipoJugador[posMonstruoJugador].imagenes + 'dano.png');
     end;
 
 procedure TForm2.Timer2Timer(Sender: TObject);
@@ -438,8 +442,8 @@ procedure TForm2.Timer2Timer(Sender: TObject);
 
         // para cada intervalo se pone una foto distinta
         case frameActualDanoUsuario of
-            0: Image1.Picture.LoadFromFile(Ruta + 'dano.jpg');
-            1: Image1.Picture.LoadFromFile(Ruta + 'enojado.jpg');
+            0: Image1.Picture.LoadFromFile(Ruta + 'dano.png');
+            1: Image1.Picture.LoadFromFile(Ruta + 'enojado.png');
         end;
 
         // por cada intervalo vamos sumando valor al frameActual (para representar el iteracion de los frames)
@@ -449,7 +453,7 @@ procedure TForm2.Timer2Timer(Sender: TObject);
         if frameActualDanoUsuario > 2 then
             begin
                 Timer2.Enabled := False; // detenemos el ciclo de intervalos o como se diga
-                Image1.Picture.LoadFromFile(Ruta + 'idle.jpg'); // volvemos al estado normal del personaje
+                Image1.Picture.LoadFromFile(Ruta + 'idle.png'); // volvemos al estado normal del personaje
             end;
     end;
 

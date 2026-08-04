@@ -313,7 +313,7 @@ procedure CambiarMonstruo(PosMonstruo: integer);
         Form2.StringGrid1.Invalidate;
 
         //le asignamos la imagen correspondiente
-        Form2.Image1.picture.LoadFromFile(nuevoMonstruo.imagenes + 'idle.jpg');
+        Form2.Image1.picture.LoadFromFile(nuevoMonstruo.imagenes + 'idle.png');
 
         // mostramos la cantidad actualizada de ataques que tiene el usuario
         ResetearCantidadDeAtaques();

@@ -80,6 +80,10 @@ var
   monstruo4: monstruo;
   monstruo5: monstruo;
   monstruo6: monstruo;
+  monstruo7: monstruo;
+  monstruo8: monstruo;
+  monstruo9: monstruo;
+  monstruo10: monstruo;
 
   arrayDanos, arrayDanos2: TarrayDanos;
 
@@ -188,10 +192,34 @@ begin
     monstruo6.desbloqueado := True;
     monstruo6.imagenes := RUTAimg + 'guitella\';
 
+    monstruo7.nombre := 'Malosaurio';
+    monstruo7.vida := 100;
+    monstruo7.ataques := arrayDanos2;
+    monstruo7.desbloqueado := True;
+    monstruo7.imagenes := RUTAimg + 'malosaurio\';
+
+    monstruo8.nombre := 'Mieloso';
+    monstruo8.vida := 100;
+    monstruo8.ataques := arrayDanos2;
+    monstruo8.desbloqueado := True;
+    monstruo8.imagenes := RUTAimg + 'mieloso\';
+
+    monstruo9.nombre := 'La Pala';
+    monstruo9.vida := 100;
+    monstruo9.ataques := arrayDanos2;
+    monstruo9.desbloqueado := True;
+    monstruo9.imagenes := RUTAimg + 'la_pala\';
+
+    monstruo10.nombre := 'Brujerezas';
+    monstruo10.vida := 100;
+    monstruo10.ataques := arrayDanos2;
+    monstruo10.desbloqueado := True;
+    monstruo10.imagenes := RUTAimg + 'brujerezas\';
+
     //Seteo de los equipos rivales
-    equipo2[1] := monstruo1;
-    equipo2[2] := monstruo2;
-    equipo2[3] := monstruo3;
+    equipo2[1] := monstruo7;
+    equipo2[2] := monstruo8;
+    equipo2[3] := monstruo9;
 
     //Enlistado de todos los monstruos disponibles y no disponibles
     listaMonstruos[1] := monstruo1;
@@ -409,6 +437,8 @@ procedure TForm2.FormShow(Sender: TObject);
 
         //cargamos la imagen del primer integrante del equipo
         Image1.Picture.LoadFromFile(equipoJugador[posMonstruoJugador].imagenes + 'idle.png');
+        //cargmos la imagen del primer enemigo
+        Image2.Picture.LoadFromFile(equipo2[1].imagenes + 'idle.png');
     end;
 
 
@@ -456,6 +486,10 @@ procedure TForm2.Timer2Timer(Sender: TObject);
                 Image1.Picture.LoadFromFile(Ruta + 'idle.png'); // volvemos al estado normal del personaje
             end;
     end;
+
+procedure animacionDanoEnemigo;
+begin
+end;
 
 //esta funcion se ejecuta una vez que haya pasado el tiempo predeterminado
 

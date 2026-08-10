@@ -59,7 +59,7 @@ procedure TForm3.Button2Click(Sender: TObject);
         //...bloqueado si no existe
         monstruoActual := listaMonstruos[posMonstruoActual];
         if monstruoActual.nombre <> '' then
-            Image1.Picture.LoadFromFile(monstruoActual.imagenes + 'idle.jpg')
+            Image1.Picture.LoadFromFile(monstruoActual.imagenes + 'idle.png')
         else
             Image1.Picture.LoadFromFile(RUTAimg + 'bloqueado.jpg');
 
@@ -68,7 +68,7 @@ procedure TForm3.Button1Click(Sender: TObject);
     var
         monstruoActual: monstruo;
     begin
-        //sumamos una posicion a posMonstruoActual
+        //restamos una posicion a posMonstruoActual
         posMonstruoActual := posMonstruoActual - 1;
 
         //si se pasa de los limites del array entonces empieza desde el otro lado
@@ -78,7 +78,7 @@ procedure TForm3.Button1Click(Sender: TObject);
         //...bloqueado si no existe
         monstruoActual := listaMonstruos[posMonstruoActual];
         if monstruoActual.nombre <> '' then
-            Image1.Picture.LoadFromFile(monstruoActual.imagenes + 'idle.jpg')
+            Image1.Picture.LoadFromFile(monstruoActual.imagenes + 'idle.png')
         else
             Image1.Picture.LoadFromFile(RUTAimg + 'bloqueado.jpg');
 

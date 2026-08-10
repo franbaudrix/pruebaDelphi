@@ -3,8 +3,7 @@ object Form3: TForm3
   Top = 156
   Width = 1088
   Height = 563
-  HorzScrollBar.Position = 183
-  VertScrollBar.Position = 14
+  HorzScrollBar.Position = 166
   Caption = 'Form3'
   Color = clBtnHighlight
   Font.Charset = DEFAULT_CHARSET
@@ -17,8 +16,8 @@ object Form3: TForm3
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 265
-    Top = 170
+    Left = 282
+    Top = 184
     Width = 187
     Height = 46
     Caption = 'Monstruos'
@@ -30,15 +29,15 @@ object Form3: TForm3
     ParentFont = False
   end
   object Image1: TImage
-    Left = 225
-    Top = 242
+    Left = 242
+    Top = 256
     Width = 265
     Height = 265
     Stretch = True
   end
   object Label2: TLabel
-    Left = 841
-    Top = 162
+    Left = 858
+    Top = 176
     Width = 214
     Height = 46
     Caption = 'Estadisticas'
@@ -50,8 +49,8 @@ object Form3: TForm3
     ParentFont = False
   end
   object Button1: TButton
-    Left = 33
-    Top = 282
+    Left = 50
+    Top = 296
     Width = 163
     Height = 113
     Caption = 'Anterior'
@@ -65,8 +64,8 @@ object Form3: TForm3
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 513
-    Top = 274
+    Left = 530
+    Top = 288
     Width = 161
     Height = 113
     Caption = 'Siguiente'

@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Grids, StdCtrls, ExtCtrls, jpeg;
+  Dialogs, Grids, StdCtrls, ExtCtrls, jpeg, pngimage;
 
 type
 
@@ -25,7 +25,7 @@ type
     end;
 
   //por ahora vamos a suponer que el usuario puede tener muchos personajes
-  equipo = array[1..10] of monstruo;
+  equipo = array[1..6] of monstruo;
 
 
   TForm2 = class(TForm)
@@ -45,6 +45,7 @@ type
     Label2: TLabel;
     Timer1: TTimer;
     Timer2: TTimer;
+    Image3: TImage;
     procedure FormCreate(Sender: TObject);
     procedure StringGrid1DrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
@@ -79,11 +80,15 @@ var
   monstruo4: monstruo;
   monstruo5: monstruo;
   monstruo6: monstruo;
+  monstruo7: monstruo;
+  monstruo8: monstruo;
+  monstruo9: monstruo;
+  monstruo10: monstruo;
 
   arrayDanos, arrayDanos2: TarrayDanos;
 
   equipoJugador: equipo;
-  equipo2: equipo;
+  equipoEnemigo: equipo;
   listaMonstruos: equipo;
 
   posMonstruoJugador, posMonstruoE2: integer;
@@ -91,6 +96,9 @@ var
   danoJugador, danoE2: integer;
 
   turno: boolean;
+
+// la declaramos aca para poder usarla en otros units
+function RUTAimg: string;
 
 implementation
 
@@ -155,7 +163,7 @@ begin
     monstruo1.imagenes := RUTAimg + 'capi\';
 
     monstruo2.nombre := 'Gachin';
-    monstruo2.vida := 100;
+    monstruo2.vida := 80;
     monstruo2.ataques := arrayDanos;
     monstruo2.desbloqueado := True;
     monstruo2.imagenes := RUTAimg + 'gachin\';
@@ -167,27 +175,51 @@ begin
     monstruo3.imagenes := RUTAimg + 'helarila\';
 
     monstruo4.nombre := 'Tomatina';
-    monstruo4.vida := 100;
+    monstruo4.vida := 50;
     monstruo4.ataques := arrayDanos2;
     monstruo4.desbloqueado := True;
     monstruo4.imagenes := RUTAimg + 'tomatina\';
 
     monstruo5.nombre := 'Ungaunge';
-    monstruo5.vida := 100;
+    monstruo5.vida := 200;
     monstruo5.ataques := arrayDanos2;
     monstruo5.desbloqueado := True;
     monstruo5.imagenes := RUTAimg + 'ungaunge\';
 
     monstruo6.nombre := 'Guitella';
-    monstruo6.vida := 100;
+    monstruo6.vida := 250;
     monstruo6.ataques := arrayDanos2;
     monstruo6.desbloqueado := True;
     monstruo6.imagenes := RUTAimg + 'guitella\';
 
+    monstruo7.nombre := 'Malosaurio';
+    monstruo7.vida := 100;
+    monstruo7.ataques := arrayDanos2;
+    monstruo7.desbloqueado := True;
+    monstruo7.imagenes := RUTAimg + 'malosaurio\';
+
+    monstruo8.nombre := 'Mieloso';
+    monstruo8.vida := 100;
+    monstruo8.ataques := arrayDanos2;
+    monstruo8.desbloqueado := True;
+    monstruo8.imagenes := RUTAimg + 'mieloso\';
+
+    monstruo9.nombre := 'La Pala';
+    monstruo9.vida := 100;
+    monstruo9.ataques := arrayDanos2;
+    monstruo9.desbloqueado := True;
+    monstruo9.imagenes := RUTAimg + 'la_pala\';
+
+    monstruo10.nombre := 'Brujerezas';
+    monstruo10.vida := 100;
+    monstruo10.ataques := arrayDanos2;
+    monstruo10.desbloqueado := True;
+    monstruo10.imagenes := RUTAimg + 'brujerezas\';
+
     //Seteo de los equipos rivales
-    equipo2[1] := monstruo1;
-    equipo2[2] := monstruo2;
-    equipo2[3] := monstruo3;
+    equipoEnemigo[1] := monstruo7;
+    equipoEnemigo[2] := monstruo8;
+    equipoEnemigo[3] := monstruo9;
 
     //Enlistado de todos los monstruos disponibles y no disponibles
     listaMonstruos[1] := monstruo1;
@@ -201,15 +233,18 @@ begin
     posMonstruoE2 := Random(3) + 1;
 
     //Configuracion LABEL con nombre monstruo del RIVAL
-    label1.caption := equipo2[posMonstruoE2].nombre;
+    label1.caption := equipoEnemigo[posMonstruoE2].nombre;
 
     posMonstruoJugador := 1;
-    //asignamos la vida del jugador 
+    //asignamos la vida del jugador
     vidaJugador := equipoJugador[posMonstruoJugador].vida;
 
-    vidaE2 := equipo2[posMonstruoE2].vida;
+    vidaE2 := equipoEnemigo[posMonstruoE2].vida;
 
     //insertar la vida del enemigo
+
+    //insertar imagen de fondo
+    Image3.Picture.LoadFromFile(RUTAimg + 'fondo1.png');
 
 
 end;
@@ -306,7 +341,7 @@ procedure CambiarMonstruo(PosMonstruo: integer);
         Form2.StringGrid1.Invalidate;
 
         //le asignamos la imagen correspondiente
-        Form2.Image1.picture.LoadFromFile(nuevoMonstruo.imagenes + 'idle.jpg');
+        Form2.Image1.picture.LoadFromFile(nuevoMonstruo.imagenes + 'idle.png');
 
         // mostramos la cantidad actualizada de ataques que tiene el usuario
         ResetearCantidadDeAtaques();
@@ -356,7 +391,7 @@ procedure hacerDano(posAtaque: integer);
                 if vidaE2 < 0 then //Definimos el limite minimo
                     vidaE2 := 0;
             end;
-        equipo2[posMonstruoE2].vida := vidaE2;
+        equipoEnemigo[posMonstruoE2].vida := vidaE2;
         Form2.StringGrid2.Invalidate;
         turno:= False; //Cambiamos la variable turno para que ataque al rival
         Form2.LogicaIA; //Ejecutamos el procedimiento para que la IA ataque
@@ -401,7 +436,9 @@ procedure TForm2.FormShow(Sender: TObject);
         vidaJugador := equipoJugador[posMonstruoJugador].vida;
 
         //cargamos la imagen del primer integrante del equipo
-        Image1.Picture.LoadFromFile(equipoJugador[posMonstruoJugador].imagenes + 'idle.jpg');
+        Image1.Picture.LoadFromFile(equipoJugador[posMonstruoJugador].imagenes + 'idle.png');
+        //cargmos la imagen del primer enemigo
+        Image2.Picture.LoadFromFile(equipoEnemigo[1].imagenes + 'idle.png');
     end;
 
 
@@ -419,7 +456,7 @@ procedure AnimacionDanoUsuario();
         Form2.Timer2.Interval := 500; // 400 ms entre frames (se ejecuta la funcion timer en intervalos de 400)
         Form2.Timer2.Enabled := True; // activamos el ciclo de activacion de la funcion timer
         // ponemos la primer imagen de la animacion de dano asi el personaje cambia apenas le hacen dano
-        Form2.Image1.Picture.LoadFromFile(equipoJugador[posMonstruoJugador].imagenes + 'dano.jpg');
+        Form2.Image1.Picture.LoadFromFile(equipoJugador[posMonstruoJugador].imagenes + 'dano.png');
     end;
 
 procedure TForm2.Timer2Timer(Sender: TObject);
@@ -435,8 +472,8 @@ procedure TForm2.Timer2Timer(Sender: TObject);
 
         // para cada intervalo se pone una foto distinta
         case frameActualDanoUsuario of
-            0: Image1.Picture.LoadFromFile(Ruta + 'dano.jpg');
-            1: Image1.Picture.LoadFromFile(Ruta + 'enojado.jpg');
+            0: Image1.Picture.LoadFromFile(Ruta + 'dano.png');
+            1: Image1.Picture.LoadFromFile(Ruta + 'enojado.png');
         end;
 
         // por cada intervalo vamos sumando valor al frameActual (para representar el iteracion de los frames)
@@ -446,9 +483,13 @@ procedure TForm2.Timer2Timer(Sender: TObject);
         if frameActualDanoUsuario > 2 then
             begin
                 Timer2.Enabled := False; // detenemos el ciclo de intervalos o como se diga
-                Image1.Picture.LoadFromFile(Ruta + 'idle.jpg'); // volvemos al estado normal del personaje
+                Image1.Picture.LoadFromFile(Ruta + 'idle.png'); // volvemos al estado normal del personaje
             end;
     end;
+
+procedure animacionDanoEnemigo;
+begin
+end;
 
 //esta funcion se ejecuta una vez que haya pasado el tiempo predeterminado
 
@@ -461,12 +502,12 @@ begin
     if turno = False then //turno = False es el turno de la IA
         begin
             //If que chequea que al menos un monstruo tenga vida, sino gano el jugador usuario
-            if (equipo2[1].vida > 0) or (equipo2[2].vida > 0) or (equipo2[3].vida > 0) then
-                if equipo2[posMonstruoE2].vida > 0 then
+            if (equipoEnemigo[1].vida > 0) or (equipoEnemigo[2].vida > 0) or (equipoEnemigo[3].vida > 0) then
+                if equipoEnemigo[posMonstruoE2].vida > 0 then
                     begin
                         AnimacionDanoUsuario();
                         danoRandom := Random(3)+1;
-                        vidaJugador := vidaJugador - equipo2[posMonstruoE2].ataques[danoRandom].dano;
+                        vidaJugador := vidaJugador - equipoEnemigo[posMonstruoE2].ataques[danoRandom].dano;
                         equipoJugador[posMonstruoJugador].vida := vidaJugador;
                         StringGrid1.Invalidate;
                         turno := True;
@@ -477,11 +518,11 @@ begin
                         //Bucle repeat para buscar la posicion random de un monstruo con vida
                         repeat
                             posMonstruoE2 := Random(3) + 1;
-                        until equipo2[posMonstruoE2].vida > 0;
+                        until equipoEnemigo[posMonstruoE2].vida > 0;
 
                         //No atacara porque utiliza su turno para cambiar de monstruo
-                        vidaE2:= equipo2[posMonstruoE2].vida;
-                        label1.caption := equipo2[posMonstruoE2].nombre;
+                        vidaE2:= equipoEnemigo[posMonstruoE2].vida;
+                        label1.caption := equipoEnemigo[posMonstruoE2].nombre;
 
                         turno:=True;
                     end

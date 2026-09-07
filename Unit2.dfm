@@ -1,8 +1,9 @@
 object Form2: TForm2
   Left = 220
-  Top = 163
-  Width = 1088
-  Height = 526
+  Top = 123
+  Width = 1310
+  Height = 729
+  VertScrollBar.Position = 108
   Caption = 'Form2'
   Color = clBtnHighlight
   Font.Charset = DEFAULT_CHARSET
@@ -17,7 +18,7 @@ object Form2: TForm2
   TextHeight = 13
   object Image3: TImage
     Left = 0
-    Top = 0
+    Top = -108
     Width = 1601
     Height = 809
     Picture.Data = {
@@ -9109,7 +9110,7 @@ object Form2: TForm2
   end
   object Label1: TLabel
     Left = 1216
-    Top = 24
+    Top = -84
     Width = 82
     Height = 32
     Caption = 'Label1'
@@ -9123,7 +9124,7 @@ object Form2: TForm2
   end
   object Image1: TImage
     Left = 120
-    Top = 416
+    Top = 308
     Width = 345
     Height = 351
     Picture.Data = {
@@ -14159,7 +14160,7 @@ object Form2: TForm2
   end
   object Image2: TImage
     Left = 1088
-    Top = 88
+    Top = -20
     Width = 379
     Height = 337
     Picture.Data = {
@@ -19907,23 +19908,25 @@ object Form2: TForm2
     Stretch = True
   end
   object Label2: TLabel
-    Left = 536
-    Top = 296
-    Width = 457
-    Height = 46
+    Left = 432
+    Top = 180
+    Width = 593
+    Height = 65
     Alignment = taCenter
     AutoSize = False
-    Font.Charset = ANSI_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -40
+    Color = clBtnHighlight
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -53
     Font.Name = 'MS Sans Serif'
     Font.Style = []
+    ParentColor = False
     ParentFont = False
     Transparent = True
   end
   object StringGrid1: TStringGrid
     Left = 40
-    Top = 752
+    Top = 644
     Width = 977
     Height = 33
     TabOrder = 0
@@ -19937,14 +19940,14 @@ object Form2: TForm2
   end
   object Edit2: TEdit
     Left = 520
-    Top = 504
+    Top = 396
     Width = 121
     Height = 21
     TabOrder = 1
   end
   object Button2: TButton
     Left = 656
-    Top = 496
+    Top = 388
     Width = 75
     Height = 25
     Caption = 'Curar'
@@ -19952,7 +19955,7 @@ object Form2: TForm2
   end
   object Button3: TButton
     Left = 152
-    Top = 368
+    Top = 260
     Width = 75
     Height = 25
     Caption = 'Monstruo 1'
@@ -19961,7 +19964,7 @@ object Form2: TForm2
   end
   object Button4: TButton
     Left = 248
-    Top = 368
+    Top = 260
     Width = 75
     Height = 25
     Caption = 'Monstruo 2'
@@ -19970,7 +19973,7 @@ object Form2: TForm2
   end
   object Button5: TButton
     Left = 352
-    Top = 368
+    Top = 260
     Width = 75
     Height = 25
     Caption = 'Monstruo 3'
@@ -19979,7 +19982,7 @@ object Form2: TForm2
   end
   object Button6: TButton
     Left = 576
-    Top = 536
+    Top = 428
     Width = 97
     Height = 33
     Caption = 'Ataque 1'
@@ -19988,7 +19991,7 @@ object Form2: TForm2
   end
   object Button7: TButton
     Left = 576
-    Top = 584
+    Top = 476
     Width = 97
     Height = 33
     Caption = 'Ataque 2'
@@ -19997,7 +20000,7 @@ object Form2: TForm2
   end
   object Button8: TButton
     Left = 576
-    Top = 632
+    Top = 524
     Width = 97
     Height = 33
     Caption = 'Ataque 3'
@@ -20006,7 +20009,7 @@ object Form2: TForm2
   end
   object StringGrid2: TStringGrid
     Left = 976
-    Top = 392
+    Top = 284
     Width = 977
     Height = 33
     TabOrder = 9
@@ -20027,6 +20030,9 @@ object Form2: TForm2
     Top = 390
   end
   object Timer3: TTimer
+    Enabled = False
+    Interval = 1500
+    OnTimer = Timer3Timer
     Left = 1248
     Top = 56
   end

@@ -321,10 +321,23 @@ end;
 //end;
 
 procedure ResetearCantidadDeAtaques();
+    var
+        CantidadAtq1, CantidadAtq2, CantidadAtq3: integer; // variables para guardar la cantida de atqs que les quedan
     begin
-        Form2.button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[1].cantidad);
-        Form2.button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[2].cantidad);
-        Form2.button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(equipoJugador[posMonstruoJugador].ataques[3].cantidad);
+        CantidadAtq1 := equipoJugador[posMonstruoJugador].ataques[1].cantidad;
+        if CantidadAtq1 > 0 then
+            Form2.button6.Enabled := True;
+        Form2.button6.caption := equipoJugador[posMonstruoJugador].ataques[1].nombre + ' ' + inttostr(CantidadAtq1);
+
+        CantidadAtq2 := equipoJugador[posMonstruoJugador].ataques[2].cantidad;
+        if CantidadAtq2 > 0 then
+            Form2.button7.Enabled := True;
+        Form2.button7.caption := equipoJugador[posMonstruoJugador].ataques[2].nombre + ' ' + inttostr(CantidadAtq2);
+
+        CantidadAtq3 := equipoJugador[posMonstruoJugador].ataques[3].cantidad;
+        if CantidadAtq3 > 0 then
+            Form2.Button8.Enabled := True;
+        Form2.button8.caption := equipoJugador[posMonstruoJugador].ataques[3].nombre + ' ' + inttostr(CantidadAtq3);
     end;
 
 //BOTONES PARA CAMBIAR DE MONSTRUO JUGADOR
@@ -382,6 +395,7 @@ procedure hacerDano(posAtaque: integer);
         //Chequeamos que el ataque elegido siga teniendo usos
         if equipoJugador[posMonstruoJugador].ataques[posAtaque].cantidad > 0 then
             begin
+
                 equipoJugador[posMonstruoJugador].ataques[posAtaque].cantidad := equipoJugador[posMonstruoJugador].ataques[posAtaque].cantidad - 1;
 
                 if posAtaque = 1 then
@@ -396,11 +410,20 @@ procedure hacerDano(posAtaque: integer);
                 if vidaE2 < 0 then //Definimos el limite minimo
                     vidaE2 := 0;
                 Form2.AnimacionDanoEnemigo(); // activamos la animacion de dano del enemigo
+                equipoEnemigo[posMonstruoE2].vida := vidaE2;
+                Form2.StringGrid2.Invalidate;
+                turno:= False; //Cambiamos la variable turno para que ataque al rival
+                Form2.LogicaIA; //Ejecutamos el procedimiento para que la IA ataque
+            end
+        else
+            begin
+                if posAtaque = 1 then
+                    Form2.button6.Enabled := False
+                else if posAtaque = 2 then
+                    Form2.button7.Enabled := False
+                else
+                    Form2.button8.Enabled := False
             end;
-        equipoEnemigo[posMonstruoE2].vida := vidaE2;
-        Form2.StringGrid2.Invalidate;
-        turno:= False; //Cambiamos la variable turno para que ataque al rival
-        Form2.LogicaIA; //Ejecutamos el procedimiento para que la IA ataque
     end;
 
 procedure TForm2.Button6Click(Sender: TObject);

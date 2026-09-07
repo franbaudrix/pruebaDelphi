@@ -46,6 +46,7 @@ type
     Timer1: TTimer;
     Timer2: TTimer;
     Image3: TImage;
+    Timer3: TTimer;
     procedure FormCreate(Sender: TObject);
     procedure StringGrid1DrawCell(Sender: TObject; ACol, ARow: Integer;
       Rect: TRect; State: TGridDrawState);
@@ -62,8 +63,12 @@ type
     procedure LogicaIA;
     procedure Timer1Timer(Sender: TObject);
     procedure Timer2Timer(Sender: TObject);
+    procedure Timer3Timer(Sender: TObject);
+    procedure AnimacionDanoEnemigo;
+    procedure AnimacionDanoUsuario;
   private
     frameActualDanoUsuario: integer;
+    frameActualDanoEnemigo: integer;
   public
     { Public declarations }
   end;
@@ -204,11 +209,11 @@ begin
     monstruo8.desbloqueado := True;
     monstruo8.imagenes := RUTAimg + 'mieloso\';
 
-    monstruo9.nombre := 'La Pala';
+    monstruo9.nombre := 'El Tito Polar';
     monstruo9.vida := 100;
     monstruo9.ataques := arrayDanos2;
     monstruo9.desbloqueado := True;
-    monstruo9.imagenes := RUTAimg + 'la_pala\';
+    monstruo9.imagenes := RUTAimg + 'eltitopolar\';
 
     monstruo10.nombre := 'Brujerezas';
     monstruo10.vida := 100;
@@ -390,6 +395,7 @@ procedure hacerDano(posAtaque: integer);
                 vidaE2 := vidaE2 - danoJugador;
                 if vidaE2 < 0 then //Definimos el limite minimo
                     vidaE2 := 0;
+                Form2.AnimacionDanoEnemigo(); // activamos la animacion de dano del enemigo
             end;
         equipoEnemigo[posMonstruoE2].vida := vidaE2;
         Form2.StringGrid2.Invalidate;
@@ -438,19 +444,19 @@ procedure TForm2.FormShow(Sender: TObject);
         //cargamos la imagen del primer integrante del equipo
         Image1.Picture.LoadFromFile(equipoJugador[posMonstruoJugador].imagenes + 'idle.png');
         //cargmos la imagen del primer enemigo
-        Image2.Picture.LoadFromFile(equipoEnemigo[1].imagenes + 'idle.png');
+        Image2.Picture.LoadFromFile(equipoEnemigo[posMonstruoE2].imagenes + 'idle.png');
     end;
 
 
 //Procedure para la logica de la IA
 procedure TForm2.LogicaIA;
     begin
-        Label2.caption := 'Es el turno de malosaurio';
+        Label2.caption := 'Es el turno de ' + equipoEnemigo[posMonstruoE2].nombre;
         turno := False;
         Timer1.Enabled := True; // despues de 2 segundos vuelve a ser falso
     end;
 
-procedure AnimacionDanoUsuario();
+procedure TForm2.AnimacionDanoUsuario();
     begin
         Form2.frameActualDanoUsuario := 0;
         Form2.Timer2.Interval := 500; // 400 ms entre frames (se ejecuta la funcion timer en intervalos de 400)
@@ -487,9 +493,42 @@ procedure TForm2.Timer2Timer(Sender: TObject);
             end;
     end;
 
-procedure animacionDanoEnemigo;
-begin
-end;
+procedure TForm2.AnimacionDanoEnemigo();
+    begin
+        Form2.frameActualDanoEnemigo := 0;
+        Form2.Timer3.Interval := 500; // 400 ms entre frames (se ejecuta la funcion timer en intervalos de 400)
+        Form2.Timer3.Enabled := True; // activamos el ciclo de activacion de la funcion timer
+        // ponemos la primer imagen de la animacion de dano asi el personaje cambia apenas le hacen dano
+        Form2.Image2.Picture.LoadFromFile(equipoEnemigo[posMonstruoE2].imagenes + 'dano.png');
+    end;
+
+procedure TForm2.Timer3Timer(Sender: TObject);
+
+    var
+        Ruta: string;
+        enemigoActual: monstruo;
+
+    begin
+        // definimos la ruta de la carpeta donde estan las fotos
+        enemigoActual := equipoEnemigo[posMonstruoE2];
+        Ruta := enemigoActual.imagenes;
+
+        // para cada intervalo se pone una foto distinta
+        case frameActualDanoEnemigo of
+            0: Image2.Picture.LoadFromFile(Ruta + 'dano.png');
+            1: Image2.Picture.LoadFromFile(Ruta + 'enojado.png');
+        end;
+
+        // por cada intervalo vamos sumando valor al frameActual (para representar el iteracion de los frames)
+        frameActualDanoEnemigo := frameActualDanoEnemigo + 1;
+
+        // una vez que llegamos al frame final de la animacion frenamos la animacion
+        if frameActualDanoEnemigo > 2 then
+            begin
+                Timer3.Enabled := False; // detenemos el ciclo de intervalos o como se diga
+                Image2.Picture.LoadFromFile(Ruta + 'idle.png'); // volvemos al estado normal del personaje
+            end;
+    end;
 
 //esta funcion se ejecuta una vez que haya pasado el tiempo predeterminado
 
@@ -497,6 +536,7 @@ procedure TForm2.Timer1Timer(Sender: TObject);
 
 var
     danoRandom: integer; //Variable para generar una posicion random del array danios
+    Ruta: string; // para la ruta de la imagen del monstruo
 
 begin
     if turno = False then //turno = False es el turno de la IA
@@ -519,6 +559,10 @@ begin
                         repeat
                             posMonstruoE2 := Random(3) + 1;
                         until equipoEnemigo[posMonstruoE2].vida > 0;
+
+                        // cambiamos la foto del monstruo
+                        Ruta := equipoEnemigo[posMonstruoE2].imagenes;
+                        Image2.Picture.LoadFromFile(Ruta + 'idle.png');
 
                         //No atacara porque utiliza su turno para cambiar de monstruo
                         vidaE2:= equipoEnemigo[posMonstruoE2].vida;
